@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>Unity WebGL Player | Bendy and the Ink Machine</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box
+      }
+
+      body {
+        background: #000;
+        overflow: hidden
+      }
+
+      #loading-text {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font: 24px Arial;
+        text-align: center
+      }
+
+      #unity-canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block
+      }
+
+      #unity-mobile-warning {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        background: rgba(0, 0, 0, .9);
+        padding: 20px;
+        border-radius: 8px;
+        font: 14px Arial
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unity-mobile-warning">WebGL not supported on mobile</div>
+    <div id="loading-text">Loading...</div>
+    <canvas id="unity-canvas"></canvas>
+
+    <script>
+      alert("this web port was made by slant + crackers (woahhcrackers) dont take credit for it");
+
+      const lt = document.getElementById("loading-text"),
+            cv = document.getElementById("unity-canvas"),
+            mw = document.getElementById("unity-mobile-warning");
+
+      let lb = 0;
+      const tm = '576.24';
+      const base = "https://cdn.jsdelivr.net/gh/shayderrr/BATIMWeb@main/Build/";
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        const m = document.createElement('meta');
+        m.name = 'viewport';
+        m.content = 'width=device-width,height=device-height,initial-scale=1,user-scalable=no,shrink-to-fit=yes';
+        document.head.appendChild(m);
+        mw.style.display = "block";
+        setTimeout(() => mw.style.display = "none", 5000);
+      }
+
+      async function fwp(u) {
+        const r = await fetch(u),
+          rd = r.body.getReader(),
+          ch = [];
+
+        while (true) {
+          const { done, value } = await rd.read();
+          if (done) break;
+          lb += value.length;
+          ch.push(value);
+          lt.textContent = `Downloading Assets: ${(lb/1048576).toFixed(2)} MB / ${tm} MB`;
+        }
+
+        return new Blob(ch);
+      }
+
+      async function mf(p) {
+        const bl = await Promise.all(p.map(fwp));
+        return URL.createObjectURL(new Blob(bl));
+      }
+
+      (async () => {
+        const dc = Array.from({ length: 122 }, (_, i) => `${base}BATIM.data.${String(i + 1).padStart(3, '0')}`);
+        const wc = [`${base}BATIM.wasm.part1`, `${base}BATIM.wasm.part2`];
+
+        const du = await mf(dc);
+        const wu = await mf(wc);
+
+        const sc = document.createElement("script");
+        sc.src = `${base}BATIM.loader.js`;
+
+        sc.onload = () => {
+          createUnityInstance(cv, {
+            dataUrl: du,
+            frameworkUrl: `${base}BATIM.framework.js`,
+            codeUrl: wu,
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "crackers",
+            productName: "BATIM",
+            productVersion: "1.0"
+          }).then(() => {
+            lt.remove();
+          }).catch(alert);
+        };
+
+        document.body.appendChild(sc);
+        alert("this web port was made by slant + crackers (woahhcrackers) dont take credit for it");
+      })();
+    </script>
+  </body>
+</html>
