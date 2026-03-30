@@ -110,6 +110,26 @@
         </div>
     </main>
 
+<div class="video-player-container">
+    <video id="main-video" controls>
+        <source id="video-source" src="https://cdn.jsdelivr.net/gh/wasm-com/wasm.com@main/heist.mov" type="video/quicktime">
+    </video>
+    <div class="video-controls">
+        <button onclick="changeVideo('https://cdn.jsdelivr.net/gh/wasm-com/wasm.com@main/heist.mov')">heist</button>
+        <button onclick="changeVideo('https://cdn.jsdelivr.net/gh/wasm-com/wasm.com@main/heist%20(1).mov')">heist (1)</button>
+    </div>
+</div>
+
+<script>
+    function changeVideo(url) {
+        const video = document.getElementById('main-video');
+        const source = document.getElementById('video-source');
+        source.src = url;
+        video.load();
+        video.play();
+    }
+</script>
+	
     <footer>
         <div class="container">
             <a href="https://github.com/wasm-com">github</a> |
