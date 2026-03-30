@@ -129,3 +129,38 @@ footer a {
 footer a:hover {
     color: #fff;
 }
+.video-player-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: #111;
+    border: 1px solid #333;
+    padding: 10px;
+    z-index: 1000;
+}
+.video-player-container video {
+    width: 100%;
+    border: 1px solid #444;
+    background: #000;
+}
+.video-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.video-controls button {
+    flex: 1;
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+}
+.video-controls button:hover {
+    background: #222;
+    color: #fff;
+    border-color: #666;
+}
