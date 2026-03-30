@@ -131,14 +131,13 @@ footer a:hover {
 }
 .video-player-container {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 30px;
+    right: 30px;
     width: 320px;
     background: #111;
     border: 1px solid #333;
-    padding: 12px;
+    padding: 15px;
     z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .video-player-container video {
@@ -147,35 +146,35 @@ footer a:hover {
     border: 1px solid #444;
     background: #000;
     display: block;
+    image-rendering: auto;
 }
 
 .video-controls {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 .video-controls button {
-    background: #1a1a1a;
-    border: 1px solid #333;
+    background: #000;
+    border: 1px solid #444;
     color: #888;
-    padding: 8px 4px;
+    padding: 10px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-family: inherit;
-    transition: all 0.2s ease;
     text-transform: lowercase;
+    transition: 0.2s;
 }
 
 .video-controls button:hover {
-    background: #222;
+    border-color: #888;
     color: #fff;
-    border-color: #555;
 }
 
 .video-controls button.active {
-    background: #333;
+    border-color: #eee;
     color: #fff;
-    border-color: #666;
+    background: #1a1a1a;
 }
