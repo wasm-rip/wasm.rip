@@ -68,5 +68,12 @@
     "gameUrl": "files/stardewvalley/index.html",
     "imageUrl": "img/star.jpg",
     "porter": "cirsius"
+  },
+    {
+    "id": 11,
+    "name": "Dice A Million",
+    "gameUrl": "files/diceAmillion/diceamillion.html",
+    "imageUrl": "img/diceamillion.png",
+    "porter": "NotRexed"
   }
 ]
