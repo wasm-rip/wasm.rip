@@ -5,6 +5,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+.game-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
 body {
   background: #0d0d0d;
   color: #e5e5e5;
