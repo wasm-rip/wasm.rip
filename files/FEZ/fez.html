@@ -50,7 +50,7 @@
         return originalFetch(resource, options);
       };
 
-      // Prevent browser from stealing fucking keys mid game
+      // prevent browser from fucking stealing keys mid game
       const GAME_KEYS = new Set([
         'Tab', 'Escape', 'Space',
         'F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
@@ -172,17 +172,27 @@
     if (bytes >= 1024) return (bytes / 1024).toFixed(0) + " KB";
     return bytes + " B";
   }
-
+  async function fetchRetry(url, retries = 5) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const res = await fetch(url);
+      if (res.ok) return res;
+      if (attempt < retries) {
+        const delay = 1000 * Math.pow(2, attempt);
+        console.warn(`[FEZ] ${url} returned ${res.status}, retry ${attempt + 1}/${retries} in ${delay}ms`);
+        await new Promise(r => setTimeout(r, delay));
+      } else {
+        throw new Error(`Failed to fetch ${url}: ${res.status} after ${retries} retries`);
+      }
+    }
+  }
   async function downloadChunked(baseUrl, label, onProgress) {
-    const countRes = await fetch(baseUrl + ".count");
-    if (!countRes.ok) throw new Error(`Failed to fetch ${baseUrl}.count: ${countRes.status}`);
+    const countRes = await fetchRetry(baseUrl + ".count");
     const count = parseInt(await countRes.text());
     const chunks = [];
     let total = 0;
     for (let i = 0; i < count; i++) {
       const chunkUrl = baseUrl + String(i).padStart(2, "0");
-      const res = await fetch(chunkUrl);
-      if (!res.ok) throw new Error(`Failed to fetch ${chunkUrl}: ${res.status}`);
+      const res = await fetchRetry(chunkUrl);
       const reader = res.body.getReader();
       for (;;) {
         const { done, value } = await reader.read();
@@ -205,7 +215,6 @@
     { url: "content/gamecontrollerdb.txt",   dest: "/gamecontrollerdb.txt",           label: "gamecontrollerdb.txt" },
     { url: "content/Music.pak",              dest: "/Content/Music.pak",              label: "Music.pak" },
   ];
-
   try {
     setStatus("Loading .NET runtime...", 2);
     const { dotnet } = await import(BASE + "_framework/dotnet.js");
@@ -232,16 +241,13 @@
       const data = await downloadChunked(BASE + f.url, f.label, (bytes) => {
         detailEl.textContent = `${f.label} — ${formatSize(bytes)}`;
       });
-
       const blob = new Blob([data]);
       const blobUrl = URL.createObjectURL(blob);
-
       setStatus(
         `Writing ${f.label} to filesystem...`,
         15 + Math.round(((i + 0.5) / CONTENT_FILES.length) * 70),
         `${f.label} — ${formatSize(data.length)}`
       );
-
       await api.DownloadContentFile(blobUrl, f.dest);
       URL.revokeObjectURL(blobUrl);
     }
