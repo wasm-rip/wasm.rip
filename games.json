@@ -93,7 +93,7 @@
   {
     "id": 14,
     "name": "FEZ",
-    "gameUrl": "files/FEZ/",
+    "gameUrl": "files/FEZ/index.html",
     "imageUrl": "img/FEZ.png",
     "porter": "gurtmuncher"
   }
