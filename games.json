@@ -96,5 +96,12 @@
     "gameUrl": "files/FEZ/fez.html",
     "imageUrl": "img/FEZ.png",
     "porter": "gurtmuncher"
+  },
+  {
+    "id": 15,
+    "name": "Beatblock",
+    "gameUrl": "files/beatblock/index.html",
+    "imageUrl": "img/beatblock.jpg",
+    "porter": "sunsuke"
   }
 ]
