@@ -97,42 +97,7 @@
       </div>
     </main>
 
-    <div class="video-player-container">
-      <video id="main-video" controls playsinline>
-        <source
-          src="https://cdn.jsdelivr.net/gh/wasm-com/wasm.rip@main/heist.mov"
-          type="video/mp4"
-        />
-        <source
-          src="https://cdn.jsdelivr.net/gh/wasm-com/wasm.rip@main/heist.mov"
-          type="video/quicktime"
-        />
-      </video>
-      <div class="video-controls">
-        <button
-          class="vid-btn active"
-          onclick="
-            changeVideo(
-              this,
-              'https://cdn.jsdelivr.net/gh/wasm-rip/wasm.rip@main/heist.mov',
-            )
-          "
-        >
-          heist
-        </button>
-        <button
-          class="vid-btn"
-          onclick="
-            changeVideo(
-              this,
-              'https://cdn.jsdelivr.net/gh/wasm-rip/wasm.rip@main/heist%20(1).mov',
-            )
-          "
-        >
-          heist (1)
-        </button>
-      </div>
-    </div>
+
 
     <script>
       const gameHolder = document.querySelector(".game-grid");
@@ -182,27 +147,7 @@
           );
         });
 
-      function changeVideo(btn, url) {
-        const video = document.getElementById("main-video");
-
-        document
-          .querySelectorAll(".vid-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-
-        video.pause();
-        video.src = url;
-        video.load();
-
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {})
-            .catch((error) => {
-              console.log("Playback interaction required");
-            });
-        }
-      }
+    
     </script>
 
     <footer>
