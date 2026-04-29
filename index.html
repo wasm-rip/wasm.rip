@@ -109,13 +109,17 @@
       fetch("games.json")
         .then((res) => res.json())
         .then((games) => {
-          games
-            .sort((a, b) =>
-              a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-            )
-            .forEach((game) => {
-              // the urge to just use innerhtml instead of ts
+          const sorted = games.sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+          );
 
+          let showing = false;
+
+          // the urge to just use innerhtml instead of ts
+
+          const renderGames = (list) => {
+            gameHolder.innerHTML = "";
+            list.forEach((game) => {
               const gameThing = document.createElement("div");
               gameThing.classList.add("game-card");
 
@@ -131,9 +135,9 @@
 
               const gamePorter = document.createElement("span");
               gamePorter.classList.add("game-desc"); // not rlly a desc but wtv(sexyplankton) -- maybe add one later? todolist prob ( shayder )
-              gamePorter.textContent = `port by ${game.porter}`;  
+              gamePorter.textContent = `port by ${game.porter}`;
 
-              gameInfo.appendChild(gameTitle); 
+              gameInfo.appendChild(gameTitle);
               gameInfo.appendChild(gamePorter);
               gameThing.appendChild(gameImage);
               gameThing.appendChild(gameInfo);
@@ -144,13 +148,35 @@
 
               gameHolder.appendChild(gameThing);
             });
-        })
-        .catch((error) => {
-          alert(
-            "hi, games failed to load, either someone fucked something up or idk",
-          );
-        });
+          };
 
+          const columns = getComputedStyle(gameHolder).gridTemplateColumns.split(" ").length;
+          const initialCount = columns * 2;
+
+          renderGames(sorted.slice(0, initialCount));
+
+          if (sorted.length > initialCount) {
+            const showBtn = document.createElement("button");
+            showBtn.textContent = "show all";
+            showBtn.classList.add("show-all-btn");
+            gameHolder.after(showBtn);
+
+            showBtn.addEventListener("click", () => {
+              if (!showing) {
+                renderGames(sorted);
+                showBtn.textContent = "show less";
+                showing = true;
+              } else {
+                renderGames(sorted.slice(0, initialCount));
+                showBtn.textContent = "show all";
+                showing = false;
+              }
+            });
+          }
+        })
+        .catch(() => {
+          alert("hi, games failed to load, either someone fucked something up or idk");
+        });
     
     </script>
 
