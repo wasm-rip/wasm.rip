@@ -177,4 +177,8 @@ footer a:hover {
   border-radius: 5px;
   margin: 1rem auto;
   cursor: pointer;
+  transition: 0.2s;
+}
+.show-all-btn:hover {
+  background-color: #3d3d3d;
 }
