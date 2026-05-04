@@ -92,7 +92,7 @@
   },
   {
     "id": 14,
-    "name": "FEZ",
+    "name": "Fez",
     "gameUrl": "files/FEZ/fez.html",
     "imageUrl": "img/FEZ.png",
     "porter": "gurtmuncher"
@@ -116,6 +116,13 @@
     "name": "Ravenfield",
     "gameUrl": "files/ravenfield/index.html",
     "imageUrl": "img/ravenfield.png",
+    "porter": "gurtmuncher"
+  },
+  {
+    "id": 18,
+    "name": "Happy room",
+    "gameUrl": "files/happy-room/index.html",
+    "imageUrl": "img/happy-room.png",
     "porter": "gurtmuncher"
   }
 ]
